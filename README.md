@@ -1,4 +1,4 @@
-# React + TypeScript + Vite + Tailwind CSS 项目配置指南
+## 记录下 React + TypeScript + Vite + Tailwind CSS 配置指南
 
 ```bash
 npm create vite@latest my-react-app -- --template react-ts
