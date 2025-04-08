@@ -1,54 +1,65 @@
-# React + TypeScript + Vite
+# React + TypeScript + Vite + Tailwind CSS 项目配置指南
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+本文档记录了配置 React + TypeScript + Vite + Tailwind CSS 开发环境的关键步骤。
 
-Currently, two official plugins are available:
+## 创建项目
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+首先创建一个基于 Vite 的 React TypeScript 项目：
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```bash
+npm create vite@latest my-react-app -- --template react-ts
+cd my-react-app
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 安装 Tailwind CSS
+
+安装 Tailwind CSS 及其依赖：
+
+```bash
+npm install -D tailwindcss postcss autoprefixer
+npx tailwindcss init -p
+```
+
+> 注意：`npx tailwindcss init -p` 会自动创建 `postcss.config.js` 和 `tailwind.config.js` 文件，无需手动创建。这里会失败，还是要手动创建。
+
+## 配置 Tailwind CSS
+
+编辑 `tailwind.config.js` 文件：
 
 ```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+  ],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+}
+```
 
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
+## 更新 CSS 文件
+
+在 `src/index.css` 中添加 Tailwind 指令：
+
+```css
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
+
+## 模块类型说明
+
+项目中 `package.json` 的 `"type": "module"` 配置指定使用 ES 模块系统。
+
+如需使用 CommonJS 格式，可以：
+- 删除 `"type": "module"` 配置
+- 或将配置文件扩展名改为 `.cjs`（例如 `tailwind.config.cjs`）
+
+## 启动开发服务器
+
+```bash
+npm run dev
 ```
